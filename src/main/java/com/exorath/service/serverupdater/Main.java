@@ -45,9 +45,9 @@ public class Main {
         return GitlabAPI.connect("https://gitlab.com", getGitlabToken());
     }
     private String getGitlabToken(){
-        String address = System.getenv("REPOSITORY_ID");
+        String address = System.getenv("GITLAB_TOKEN");
         if (address == null) {
-            System.out.println("ExoBasePlugin: Fatal error: " + "No REPOSITORY_ID env var provided.");
+            System.out.println("ExoBasePlugin: Fatal error: " + "No GITLAB_TOKEN env var provided.");
             System.exit(-1);
         }
         return address;

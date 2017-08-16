@@ -29,6 +29,7 @@ public class ServerUpdater implements Runnable {
             for (GitlabRepositoryTree tree : gitlabAPI.getRepositoryTree(gitlabProject, null, null, true)) {
                 if (!tree.getType().startsWith("files/"))
                     continue;
+                System.out.println(tree.getPath());
                 byte[] content = gitlabAPI.getRawFileContent(gitlabProject, null, tree.getPath());
                 serverScalingServiceAPI.registerGameType(GSON.fromJson(new String(content), GameType.class));
             }
