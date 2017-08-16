@@ -42,7 +42,7 @@ public class Main {
     }
 
     private GitlabAPI getGitLabAPI(){
-        return GitlabAPI.connect("gitlab.com", getGitlabToken());
+        return GitlabAPI.connect("https://gitlab.com", getGitlabToken());
     }
     private String getGitlabToken(){
         String address = System.getenv("REPOSITORY_ID");
