@@ -27,7 +27,7 @@ public class ServerUpdater implements Runnable {
         try {
             GitlabProject gitlabProject = gitlabAPI.getProject(projectId);
             for (GitlabRepositoryTree tree : gitlabAPI.getRepositoryTree(gitlabProject, null, null, true)) {
-                if (!tree.getType().startsWith("blob/") && !tree.getType().startsWith("files/"))
+                if (!tree.getType().startsWith("blob") && !tree.getType().startsWith("file"))
                     continue;
                 byte[] content = gitlabAPI.getRawFileContent(gitlabProject, gitlabProject.getDefaultBranch(), tree.getPath());
                 serverScalingServiceAPI.registerGameType(GSON.fromJson(new String(content), GameType.class));
