@@ -20,7 +20,7 @@ public class Main {
 
     public Main(){
         serverUpdater = new ServerUpdater(new ServerScalingServiceAPI(getServerScalingServiceAPIAddress()), getGitLabAPI(), getRepoId());
-        scheduler.scheduleAtFixedRate(serverUpdater, 0, 5, TimeUnit.SECONDS);
+        scheduler.scheduleAtFixedRate(serverUpdater, 0, 10, TimeUnit.SECONDS);
         LOG.info("Server Updater " + this.serverUpdater.getClass() + " instantiated");
     }
 

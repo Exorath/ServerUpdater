@@ -7,6 +7,8 @@ import org.gitlab.api.GitlabAPI;
 import org.gitlab.api.models.GitlabProject;
 import org.gitlab.api.models.GitlabRepositoryTree;
 
+import java.util.concurrent.TimeUnit;
+
 /**
  * Created by toonsev on 8/16/2017.
  */
@@ -23,9 +25,18 @@ public class ServerUpdater implements Runnable {
         this.projectId = projectId;
     }
 
+    private Long lastCached;
+    private String lastCommitId;
+
+
     public void run() {
         try {
             GitlabProject gitlabProject = gitlabAPI.getProject(projectId);
+            String commitId = gitlabAPI.getBranch(gitlabProject, "master").getCommit().getId();
+            if (lastCommitId != null && lastCommitId.equals(commitId) && lastCached != null && lastCached + TimeUnit.SECONDS.toMillis(180) >= System.currentTimeMillis())
+                return;
+            lastCached = System.currentTimeMillis();
+            lastCommitId = commitId;
             for (GitlabRepositoryTree tree : gitlabAPI.getRepositoryTree(gitlabProject, null, null, true)) {
                 if (!tree.getType().startsWith("blob") && !tree.getType().startsWith("file"))
                     continue;
